@@ -6,12 +6,22 @@ square::square(int size)
 {
 	this->size = size;
 	this->array = new int[size*size];
+
+	this->randomize();
 }
 
 square::~square()
 {
 	delete this->array;
 	this->array = 0;
+}
+
+void square::randomize()
+{
+	for (int i = 0; i < this->size * this->size; i++)
+	{
+		this->array[i] = i+1;
+	}
 }
 
 void square::print()
