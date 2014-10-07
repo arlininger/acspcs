@@ -6,6 +6,7 @@ public:
 	~square();
 	void print();
 	void randomize();
+	int score();
 
 private:
 	int size;

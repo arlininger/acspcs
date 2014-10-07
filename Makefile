@@ -2,8 +2,8 @@ CC = g++
 
 all: squares
 
-squares: square.o main.o
-	$(CC) -v -g -o $@ $?
+squares: square.o main.o gcd.o
+	$(CC) -g -o $@ $?
 
 .PHONY: clean
 clean:
