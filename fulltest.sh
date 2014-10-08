@@ -2,7 +2,7 @@
 
 for i in `seq 3 27`;
 do
-	squares $i &
+	squares $i > $i.results &
 done
 
 

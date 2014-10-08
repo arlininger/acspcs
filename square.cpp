@@ -76,8 +76,8 @@ void square::print() const
 		}
 		printf(")");
 	}
-//	printf(";");
-	printf(" %d;",this->score());
+	printf(";");
+//	printf(" %d;",this->score());
 	return;
 }
 
