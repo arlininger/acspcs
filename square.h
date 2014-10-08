@@ -2,16 +2,16 @@
 class square
 {
 public:
-	square(int);	
+	square(const int);	
 	square(const square& rhs);
 	~square();
-	void print();
+	void print() const;
 	void randomize();
-	int score();
+	int score() const;
 
-	bool operator> (square &lhs);
-	bool operator< (square &lhs);
-	square& operator= (square &lhs);
+	bool operator> (const square &lhs);
+	bool operator< (const square &lhs);
+	square& operator= (const square &lhs);
 private:
 	int size;
 	int* array;

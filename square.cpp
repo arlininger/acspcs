@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
 
@@ -15,16 +16,28 @@ square::square(const square& rhs)
 	{
 		this->size = rhs.size;
 		this->array = new int[rhs.size*rhs.size];
-		memcpy(this->array,rhs.array,rhs.size*rhs.size);
+		memcpy(this->array,rhs.array,(rhs.size*rhs.size)*4);
+	}
+	for (int i = 0; i < (rhs.size*rhs.size); i++)
+	{
+		assert(rhs.array[i]);
+	}
+	for (int i = 0; i < (this->size*this->size); i++)
+	{
+		assert(this->array[i]);
 	}
 }
 
-square::square(int size)
+square::square(const int size)
 {
 	this->size = size;
 	this->array = new int[size*size];
 
 	this->randomize();
+	for (int i = 0; i < (this->size*this->size); i++)
+	{
+		assert(this->array[i]);
+	}
 }
 
 square::~square()
@@ -35,18 +48,22 @@ square::~square()
 
 void square::randomize()
 {
-	for (int i = 0; i < this->size * this->size; i++)
+	for (int i = 0; i < (this->size * this->size); i++)
 	{
 		this->array[i] = i+1;
 	}
-	for (int i = 0; i < (size*size); i++)
+	for (int i = 0; i < (this->size*this->size); i++)
 	{
-		swap(this->array[i],this->array[rand()%(size*size)]);
+		swap(this->array[i],this->array[rand()%(this->size*this->size)]);
+	}
+	for (int i = 0; i < (this->size*this->size); i++)
+	{
+		assert(this->array[i]);
 	}
 //	random_shuffle(this->array,this->array+(size*size));
 }
 
-void square::print()
+void square::print() const
 {
 	for (int i = 0; i < this->size; i++)
 	{
@@ -59,7 +76,8 @@ void square::print()
 		}
 		printf(")");
 	}
-	printf("  %d\n",this->score());
+//	printf(";");
+	printf(" %d;",this->score());
 	return;
 }
 
@@ -73,10 +91,10 @@ int getDistance(const int i, const int j,const int size)
 {
 	int x = diff(i/size,j/size);
 	int y = diff(i%size,j%size);
-	return i*i + j*j;
+	return x*x + y*y;
 }
 
-extern int gcd[256][256];
+extern int gcd[30*30][30*30];
 int GCD (const int a, const int b )
 {
 //  int c;
@@ -87,43 +105,46 @@ int GCD (const int a, const int b )
 }
 
 
-int square::score()
+int square::score() const
 {
 	int gcd = 0;
 	int distance = 0;
 	int score = 0;
 	for (int i = 0; i < (this->size * this->size); i++)
 	{
+		assert(this->array[i]);
 		for (int j = i + 1; j < (this->size * this->size); j++)
 		{
 			distance = getDistance(i,j,this->size);
 			gcd = GCD(this->array[i],this->array[j]);
 			score += gcd * distance;
+			//printf("%d  %d  %d  %d\n",this->array[i],this->array[j],gcd,distance);
 		}
 	}
 	return score;
 }
 
-square& square::operator= (square &lhs)
+square& square::operator= (const square &lhs)
 {
 	if (this->array) delete[] this->array;
 	this->array = new int[lhs.size*lhs.size];
 
-	for (int i = 0; i < lhs.size*lhs.size; i++)
-	{
-		this->array[i] = lhs.array[i];
-	}
+	memcpy(this->array,lhs.array,(lhs.size*lhs.size)*4);
 	this->size = lhs.size;
+	for (int i = 0; i < (this->size*this->size); i++)
+	{
+		assert(this->array[i]);
+	}
 	return *this;
 }
 
 
-bool square::operator> (square &lhs)
+bool square::operator> (const square &lhs)
 {
 	return this->score() > lhs.score();
 }
 
-bool square::operator< (square &lhs)
+bool square::operator< (const square &lhs)
 {
 	return this->score() < lhs.score();
 }
