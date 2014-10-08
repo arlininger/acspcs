@@ -1,6 +1,23 @@
 #include "square.h"
 
+#include <cstring>
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+
+using namespace std;
+
+
+square::square(const square& rhs)
+{
+	if (this != &rhs)
+	{
+		this->size = rhs.size;
+		this->array = new int[rhs.size*rhs.size];
+		memcpy(this->array,rhs.array,rhs.size*rhs.size);
+	}
+}
 
 square::square(int size)
 {
@@ -12,7 +29,7 @@ square::square(int size)
 
 square::~square()
 {
-	delete this->array;
+	delete[] this->array;
 	this->array = 0;
 }
 
@@ -22,6 +39,11 @@ void square::randomize()
 	{
 		this->array[i] = i+1;
 	}
+	for (int i = 0; i < (size*size); i++)
+	{
+		swap(this->array[i],this->array[rand()%(size*size)]);
+	}
+//	random_shuffle(this->array,this->array+(size*size));
 }
 
 void square::print()
@@ -47,7 +69,7 @@ int diff(int a, int b)
 	else return a - b;
 }
 
-int getDistance(int i,int j,int size)
+int getDistance(const int i, const int j,const int size)
 {
 	int x = diff(i/size,j/size);
 	int y = diff(i%size,j%size);
@@ -55,7 +77,7 @@ int getDistance(int i,int j,int size)
 }
 
 extern int gcd[256][256];
-int GCD ( int a, int b )
+int GCD (const int a, const int b )
 {
 //  int c;
 //  while ( a != 0 ) {
@@ -81,3 +103,30 @@ int square::score()
 	}
 	return score;
 }
+
+square& square::operator= (square &lhs)
+{
+	if (this->array) delete[] this->array;
+	this->array = new int[lhs.size*lhs.size];
+
+	for (int i = 0; i < lhs.size*lhs.size; i++)
+	{
+		this->array[i] = lhs.array[i];
+	}
+	this->size = lhs.size;
+	return *this;
+}
+
+
+bool square::operator> (square &lhs)
+{
+	return this->score() > lhs.score();
+}
+
+bool square::operator< (square &lhs)
+{
+	return this->score() < lhs.score();
+}
+
+
+

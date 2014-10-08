@@ -14,21 +14,21 @@ gcd ( int a, int b )
 
 int main()
 {
-	int array[625][625];
+	int array[626][626];
 	int i,j;
-	for (i = 0; i < 625; i++)
+	for (i = 0; i <= 625; i++)
 	{
-		for (j = i; j < 625; j++)
+		for (j = i; j <= 625; j++)
 		{
 			array[i][j] = gcd(i,j);
 			array[j][i] = array[i][j];
 		}
 	}
-	printf("int gcd[625][625] = {\n");
-	for (i = 0; i < 625; i++)
+	printf("int gcd[626][626] = {\n");
+	for (i = 0; i < 626; i++)
 	{
 		printf("    {");
-		for (j = 0; j < 625; j++)
+		for (j = 0; j < 626; j++)
 		{
 			printf("%d,",array[i][j]);
 		}

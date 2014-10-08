@@ -1,9 +1,12 @@
-CC = g++
+#CC = g++
 
 all: squares
 
+CFLAGS = -g
+CXXFLAGS = -g
+
 squares: square.o main.o gcd.o
-	$(CC) -g -o $@ $?
+	$(CXX) -g -o $@ $?
 
 .PHONY: clean
 clean:
