@@ -28,12 +28,15 @@ square::square(const square& rhs)
 	}
 }
 
-square::square(const int size)
+square::square(const int size, bool randomize)
 {
 	this->size = size;
 	this->array = new int[size*size];
 
-	this->randomize();
+	if (randomize)
+	{
+		this->randomize();
+	}
 	for (int i = 0; i < (this->size*this->size); i++)
 	{
 		assert(this->array[i]);
@@ -149,5 +152,9 @@ bool square::operator< (const square &lhs)
 	return this->score() < lhs.score();
 }
 
-
+void square::increment()
+{
+	std::next_permutation(this->array,(this->array)+(this->size*this->size));
+	return;
+}
 

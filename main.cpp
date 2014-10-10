@@ -10,7 +10,6 @@ int main(int argc, char* argv[])
 	assert(argc == 2);
 	int size = atoi(argv[1]);
 	assert(size >= 3 && size <= 27);
-
 	srand(time(NULL));
 
 	//for (int size = 3; size < 27; size++)
@@ -20,7 +19,9 @@ int main(int argc, char* argv[])
 		square max(x);
 		for (int i = 0; i < 100000; i++)
 		{
-			x.randomize();
+			//x.randomize();
+			x.increment();
+			if (i%1000 == 0) x.randomize();
 			if (x < min) min = x;
 			if (x > max) max = x;
 		}
